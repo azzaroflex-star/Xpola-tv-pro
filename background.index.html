@@ -1,0 +1,263 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AZZARO FLEX IPTV - Activation Portal</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;800;900&display=swap" rel="stylesheet">
+    
+    <style>
+        :root { 
+            --bg-main: #060913;
+            --card-bg: rgba(18, 26, 43, 0.85);
+            --primary-red: #e50914;
+            --primary-glow: rgba(229, 9, 20, 0.4);
+            --text-main: #ffffff;
+            --text-muted: #94a3b8;
+            --error: #ef4444;
+            --success: #10b981;
+            --accent: #f59e0b;
+            --glass-border: rgba(255, 255, 255, 0.08);
+        }
+        
+        * { box-sizing: border-box; }
+
+        body { 
+            background: var(--bg-main);
+            color: var(--text-main); 
+            font-family: 'Cairo', sans-serif; 
+            margin: 0; padding: 20px;
+            min-height: 100vh;
+            display: flex; 
+            justify-content: center; 
+            align-items: center;
+            position: relative;
+            overflow-x: hidden;
+        }
+
+        /* --- خلفية متحركة متوهجة --- */
+        .animated-background {
+            position: fixed;
+            inset: 0;
+            z-index: -1;
+            overflow: hidden;
+            background: radial-gradient(circle at 50% 50%, #0d1224 0%, #060913 60%, #020305 100%);
+        }
+
+        .gemini-glow-orb {
+            position: absolute;
+            border-radius: 50%;
+            filter: blur(100px);
+            opacity: 0.4;
+            mix-blend-mode: screen;
+            animation: geminiFloat 20s infinite alternate ease-in-out;
+        }
+
+        .orb-1 { width: 450px; height: 450px; background: linear-gradient(135deg, #4285f4, #1967d2); top: -10%; left: -10%; animation-duration: 22s; }
+        .orb-2 { width: 550px; height: 550px; background: linear-gradient(135deg, #ea4335, #c5221f); bottom: -15%; right: -10%; animation-duration: 26s; animation-direction: alternate-reverse; }
+
+        @keyframes geminiFloat {
+            0% { transform: translate(0px, 0px) scale(1) rotate(0deg); }
+            50% { transform: translate(50px, -40px) scale(1.1) rotate(90deg); }
+            100% { transform: translate(-40px, 50px) scale(0.95) rotate(180deg); }
+        }
+
+        .portal-container {
+            background: linear-gradient(145deg, rgba(16, 22, 36, 0.95), rgba(10, 14, 23, 0.98));
+            backdrop-filter: blur(25px); 
+            padding: 35px 30px; 
+            border-radius: 24px; 
+            width: 100%; max-width: 480px;
+            box-shadow: 0 25px 60px rgba(0, 0, 0, 0.8), inset 0 1px 1px rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            display: flex; flex-direction: column;
+        }
+
+        .portal-header {
+            display: flex; align-items: center; gap: 15px; margin-bottom: 20px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.08); padding-bottom: 15px;
+        }
+
+        .portal-logo {
+            width: 50px; height: 50px; background: linear-gradient(135deg, var(--primary-red), #80040a);
+            border-radius: 14px; display: flex; align-items: center; justify-content: center;
+            font-size: 1.5rem; color: white; box-shadow: 0 8px 20px rgba(229, 9, 20, 0.4);
+        }
+
+        .portal-title h2 { margin: 0; font-weight: 800; font-size: 1.3rem; color: #fff; }
+        .portal-title p { margin: 4px 0 0 0; color: var(--text-muted); font-size: 0.8rem; }
+
+        /* --- صندوق معلومات الجهاز المستقبلة --- */
+        .device-info-box {
+            background: rgba(255, 255, 255, 0.03); border: 1px solid var(--glass-border); border-radius: 14px;
+            padding: 14px 18px; margin-bottom: 20px; display: flex; flex-direction: column; gap: 8px;
+        }
+        .device-info-row { display: flex; justify-content: space-between; align-items: center; font-size: 0.88rem; }
+        .device-info-row span:first-child { color: var(--text-muted); }
+        .device-info-row span:last-child { color: var(--accent); font-weight: 700; font-family: monospace; }
+
+        /* --- التبويبات (Xtrem / M3U) --- */
+        .portal-tabs {
+            display: flex; gap: 8px; margin-bottom: 20px; background: rgba(0, 0, 0, 0.4); padding: 4px; border-radius: 12px;
+            border: 1px solid var(--glass-border);
+        }
+        .tab-btn {
+            flex: 1; padding: 10px; border-radius: 10px; border: none; background: transparent; color: var(--text-muted);
+            font-family: inherit; font-weight: 700; cursor: pointer; transition: all 0.2s; font-size: 0.9rem;
+        }
+        .tab-btn.active {
+            background: var(--primary-red); color: white;
+            box-shadow: 0 4px 15px rgba(229, 9, 20, 0.4);
+        }
+
+        .input-group { position: relative; margin-bottom: 15px; }
+        .input-group i {
+            position: absolute; right: 16px; top: 50%; transform: translateY(-50%);
+            color: var(--text-muted); font-size: 0.95rem;
+        }
+        html[dir="ltr"] .input-group i { right: auto; left: 16px; }
+
+        input, textarea {
+            width: 100%; padding: 14px 45px 14px 16px; border-radius: 12px; border: 1px solid rgba(255, 255, 255, 0.08);
+            background: rgba(8, 11, 18, 0.6); color: white; outline: none; font-size: 0.92rem; font-family: inherit;
+            transition: all 0.2s;
+        }
+        html[dir="ltr"] input, html[dir="ltr"] textarea { padding: 14px 16px 14px 45px; }
+
+        input:focus, textarea:focus { 
+            border-color: var(--primary-red); box-shadow: 0 0 20px var(--primary-glow); background: rgba(12, 17, 28, 0.9);
+        }
+
+        .btn-submit {
+            background: linear-gradient(135deg, #e50914, #b20710); color: white; font-weight: 700; font-family: inherit;
+            margin-top: 5px; border: none; width: 100%; padding: 14px; border-radius: 12px; cursor: pointer; font-size: 1rem;
+            transition: transform 0.2s ease, background 0.2s; display: flex; align-items: center; justify-content: center; gap: 10px;
+            box-shadow: 0 8px 20px rgba(229, 9, 20, 0.3);
+        }
+        .btn-submit:hover { background: #ff1e2a; transform: scale(1.01); box-shadow: 0 0 25px var(--primary-glow); }
+
+        .status-msg { margin-top: 15px; padding: 12px; border-radius: 10px; text-align: center; font-size: 0.88px; font-weight: 700; display: none; }
+        .status-msg.success { background: rgba(16, 185, 129, 0.15); border: 1px solid rgba(16, 185, 129, 0.3); color: var(--success); display: block; }
+        .status-msg.error { background: rgba(239, 68, 68, 0.15); border: 1px solid rgba(239, 68, 68, 0.3); color: var(--error); display: block; }
+    </style>
+</head>
+<body>
+
+    <div class="animated-background">
+        <div class="gemini-glow-orb orb-1"></div>
+        <div class="gemini-glow-orb orb-2"></div>
+    </div>
+
+    <div class="portal-container">
+        <div class="portal-header">
+            <div class="portal-logo"><i class="fa fa-tv"></i></div>
+            <div class="portal-title">
+                <h2>AZZARO FLEX IPTV</h2>
+                <p>بوابة تفعيل الأجهزة عبر الهاتف</p>
+            </div>
+        </div>
+
+        <!-- معلومات الجهاز المستقبلة من الباركود -->
+        <div class="device-info-box">
+            <div class="device-info-row">
+                <span>Adresse Mac:</span>
+                <span id="portal-mac">جاري القراءة...</span>
+            </div>
+            <div class="device-info-row">
+                <span>Clé de l'appareil:</span>
+                <span id="portal-key">جاري القراءة...</span>
+            </div>
+        </div>
+
+        <!-- تبويبات اختيار نوع الاشتراك -->
+        <div class="portal-tabs">
+            <button class="tab-btn active" id="btn-tab-xtream" onclick="switchPortalMode('xtream')">Xtrem API</button>
+            <button class="tab-btn" id="btn-tab-m3u" onclick="switchPortalMode('m3u')">رابط M3U</button>
+        </div>
+
+        <!-- نموذج Xtream API -->
+        <div id="form-xtream-container">
+            <div class="input-group">
+                <input type="text" id="x-server" placeholder="رابط السيرفر (http://domain.com:8080)">
+                <i class="fa fa-globe"></i>
+            </div>
+            <div class="input-group">
+                <input type="text" id="x-user" placeholder="اسم المستخدم (Username)">
+                <i class="fa fa-user"></i>
+            </div>
+            <div class="input-group">
+                <input type="text" id="x-pass" placeholder="كلمة المرور (Password)">
+                <i class="fa fa-lock"></i>
+            </div>
+        </div>
+
+        <!-- نموذج M3U -->
+        <div id="form-m3u-container" style="display: none;">
+            <div class="input-group">
+                <textarea id="m3u-url" placeholder="أدخل رابط قائمة M3U هنا..." rows="4" style="resize: none;"></textarea>
+                <i class="fa fa-link" style="top: 25px;"></i>
+            </div>
+        </div>
+
+        <button class="btn-submit" onclick="submitActivation()">تفعيل الجهاز الآن</button>
+        <div class="status-msg" id="portal-status"></div>
+    </div>
+
+    <script>
+        let currentMode = 'xtream';
+        
+        // استخراج معلمات MAC و Key من رابط الصفحة (التي تم توجيه المستخدم إليها عبر QR)
+        const urlParams = new URLSearchParams(window.location.search);
+        const deviceMac = urlParams.get('mac') || 'غير متوفر';
+        const deviceKey = urlParams.get('key') || 'غير متوفر';
+
+        document.getElementById('portal-mac').innerText = deviceMac;
+        document.getElementById('portal-key').innerText = deviceKey;
+
+        function switchPortalMode(mode) {
+            currentMode = mode;
+            document.getElementById('btn-tab-xtream').classList.toggle('active', mode === 'xtream');
+            document.getElementById('btn-tab-m3u').classList.toggle('active', mode === 'm3u');
+            document.getElementById('form-xtream-container').style.display = mode === 'xtream' ? 'block' : 'none';
+            document.getElementById('form-m3u-container').style.display = mode === 'm3u' ? 'block' : 'none';
+        }
+
+        function submitActivation() {
+            let statusBox = document.getElementById('portal-status');
+            
+            if (deviceMac === 'غير متوفر') {
+                statusBox.className = 'status-msg error';
+                statusBox.innerText = 'خطأ: لم يتم التعرف على الجهاز، يرجى مسح كود QR من داخل التطبيق مجدداً.';
+                return;
+            }
+
+            if (currentMode === 'xtream') {
+                let server = document.getElementById('x-server').value.trim();
+                let user = document.getElementById('x-user').value.trim();
+                let pass = document.getElementById('x-pass').value.trim();
+
+                if (!server || !user || !pass) {
+                    statusBox.className = 'status-msg error';
+                    statusBox.innerText = 'يرجى ملء جميع حقول بيانات السيرفر!';
+                    return;
+                }
+            } else {
+                let m3u = document.getElementById('m3u-url').value.trim();
+                if (!m3u) {
+                    statusBox.className = 'status-msg error';
+                    statusBox.innerText = 'يرجى إدخال رابط M3U صحيح!';
+                    return;
+                }
+            }
+
+            // هنا يمكنك ربط الكود بقاعدة بياناتك (Backend / PHP / API) لإرسال البيانات وحفظ التفعيل لهذا الـ MAC
+            // مثال وهمي لنجاح العملية:
+            statusBox.className = 'status-msg success';
+            statusBox.innerText = 'تم إرسال بيانات التفعيل بنجاح! يمكنك العودة إلى شاشة التلفاز.';
+        }
+    </script>
+</body>
+</html>
